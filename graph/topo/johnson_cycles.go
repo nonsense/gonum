@@ -11,6 +11,8 @@ import (
 	"gonum.org/v1/gonum/graph/iterator"
 )
 
+const MAXLEN = 7
+
 // johnson implements Johnson's "Finding all the elementary
 // circuits of a directed graph" algorithm. SIAM J. Comput. 4(1):1975.
 //
@@ -71,6 +73,9 @@ func DirectedCyclesIn(g graph.Directed) [][]graph.Node {
 // circuit is the CIRCUIT sub-procedure in the paper.
 func (j *johnson) circuit(v int) bool {
 	f := false
+	if len(j.stack) > MAXLEN {
+		return f
+	}
 	n := j.adjacent.orig[v]
 	j.stack = append(j.stack, n)
 	j.blocked[v] = true
